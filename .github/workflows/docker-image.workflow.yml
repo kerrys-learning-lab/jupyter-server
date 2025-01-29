@@ -1,28 +1,6 @@
 name: Docker image workflow
 on:
-  workflow_call:
-    inputs:
-      target:
-        description: Sets the target stage to build
-        type: string
-        default: ""
-        required: false
-      arm64:
-        description: If true, build for ARM architecture
-        type: boolean
-        default: false
-        required: false
-    secrets:
-      actor_name:
-        description: |
-          Name of the entity performing the action.
-          Repository modifications (created tags, CHANGELOG.md, etc) will be
-          attributed to this entity.
-        required: true
-      actor_token:
-        description: |
-          GITHUB_TOKEN or PAT authorized to make changes to the repository
-        required: true
+  - push
 
 env:
   REGISTRY: ghcr.io
@@ -34,7 +12,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -43,8 +20,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.actor_name }}
-          password: ${{ secrets.actor_token }}
+          username: ${{ secrets.KERRYS_LEARNING_LAB_ACTOR }}
+          password: ${{ secrets.KERRYS_LEARNING_LAB_TOKEN }}
 
       - name: Sanitize IMAGE_NAME
         id: sanitize
