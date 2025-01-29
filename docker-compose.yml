@@ -1,0 +1,13 @@
+services:
+  jupyter-dev:
+    image: local/tensorflow-notebook:dev
+    container_name: jupyter-dev
+    hostname: jupyter-dev
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    ports:
+      - '8888:8888'
+    volumes:
+      - type: bind
+        source: ${HOME}
+        target: /home/jovyan/work
